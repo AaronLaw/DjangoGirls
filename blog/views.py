@@ -13,14 +13,19 @@ def post_detail(request, pk):
     return render(request, 'blog/post_detail.html', {'post': post})
 
 def post_new(request):
+    # if this is a POST request we need to process the form data
     if request.method == "POST":
+        # create a form instance and populate it with data from the request
         form = PostForm(request.POST)
+        # check whether it's valid
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
             post.published_date = timezone.now()
             post.save()
+            # Redirect to a new URL
             return redirect('blog.views.post_detail', pk = post.pk)
+    # if a GET (or any other method) we'll create a blank form
     else:
         form = PostForm()
     return render(request, 'blog/post_edit.html', {'form': form})
