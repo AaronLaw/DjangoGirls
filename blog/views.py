@@ -1,6 +1,7 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from .models import Post
+from .models import Post, Comment
 from .forms import PostForm, CommentForm
 
 
@@ -60,15 +61,15 @@ def add_comment_to_post(request, pk):
     return render(request, 'blog/add_comment_to_post.html', {'form': form})
 
 
-def comment_remove():
-    pass
+# https://docs.djangoproject.com/en/1.8/topics/auth/default/#django.contrib.auth.decorators.login_required
+@login_required
+def comment_approve(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    comment.approve()
+    return redirect('blog.views.post_detail', pk=comment.post.pk)
 
-
-comment_remove()
-
-
-def comment_approve():
-    pass
-
-
-comment_approve()
+@login_required
+def comment_remove(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    comment.delete()
+    return redirect('blog.views.post_detail', pk=comment.post.pk)
