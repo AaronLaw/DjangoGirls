@@ -59,3 +59,16 @@ def add_comment_to_post(request, pk):
         form = CommentForm()
     return render(request, 'blog/add_comment_to_post.html', {'form': form})
 
+
+def comment_remove():
+    pass
+
+
+comment_remove()
+
+
+def comment_approve():
+    pass
+
+
+comment_approve()

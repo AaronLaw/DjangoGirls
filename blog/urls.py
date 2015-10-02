@@ -7,4 +7,7 @@ urlpatterns = [
     url(r'^post/new/$', views.post_new, name='post_new'),
     url(r'^post/(?P<pk>[0-9]+)/edit/$', views.post_edit, name='post_edit'),
     url(r'^post/(?P<pk>[0-9]+)/comment/$', views.add_comment_to_post, name='add_comment_to_post'),
+    url(r'^comment/(?P<pk>[0-9]+)/remove/$', views.add_comment_to_post, name='comment_remove'),
+    url(r'^comment/(?P<pk>[0-9]+)/approve/$', views.add_comment_to_post, name='comment_approve'),
+
 ]
