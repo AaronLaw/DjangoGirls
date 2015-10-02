@@ -11,4 +11,13 @@
         <h1>{{ post.title }}</h1>
         <p>{{ post.text|linebreaks }}</p>
     </div>
+    {% for comment in post.comments.all %}
+        <div class="comment">
+            <div class="date">{{ comment.created_date }}</div>
+            <p>{{ comment.author }}</p>
+            <p>{{ comment.text|linebreaks }}</p>
+    {% empty %}
+        </div>
+        <p>No comments yet.</p>
+    {% endfor %}
 {% endblock %}
