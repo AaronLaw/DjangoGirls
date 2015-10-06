@@ -10,10 +10,14 @@ def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
     return render(request, 'blog/post_list.html', {'posts':posts})
 
+
+@login_required
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'blog/post_detail.html', {'post': post})
 
+
+@login_required
 def post_new(request):
     # if this is a POST request we need to process the form data
     if request.method == "POST":
@@ -26,12 +30,14 @@ def post_new(request):
             post.published_date = timezone.now()
             post.save()
             # Redirect to a new URL
-            return redirect('blog.views.post_detail', pk = post.pk)
+            return redirect('blog.views.post_detail', pk=post.pk)
     # if a GET (or any other method) we'll create a blank form
     else:
         form = PostForm()
     return render(request, 'blog/post_edit.html', {'form': form})
 
+
+@login_required
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
@@ -46,10 +52,14 @@ def post_edit(request, pk):
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
 
+
+@login_required
 def post_draft_list(request):
     posts = Post.objects.filter(published_date__isnull=True).order_by('created_date')
     return render(request, 'blog/post_draft_list.html', {'posts': posts})
 
+
+@login_required
 def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.publish()
